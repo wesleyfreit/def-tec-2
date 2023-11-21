@@ -6,13 +6,17 @@
   "engines": {
     "node": "18"
   },
-  "scripts": {},
+  "scripts": {
+    "dev": "tsx watch src/index.ts --exec ts-node src/index.ts -e ts"
+  },
   "keywords": [],
   "author": "Richard Wesley",
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
     "@types/node": "^20.5.9",
+    "ts-node": "^10.9.1",
+    "tsx": "^3.12.8",
     "typescript": "^5.3.2"
   }
 }
