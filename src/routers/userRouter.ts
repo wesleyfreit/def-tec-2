@@ -52,6 +52,20 @@ router.post(
   user.signIn,
 );
 
-router.get('/users', userAuth, user.findAll);
+router.get(
+  '/users/:id',
+  celebrate(
+    {
+      [Segments.PARAMS]: {
+        id: Joi.string().uuid({ version: 'uuidv4' }).required(),
+      },
+    },
+    {
+      messages: messages,
+    },
+  ),
+  userAuth,
+  user.findUser,
+);
 
 export { router };
