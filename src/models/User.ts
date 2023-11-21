@@ -21,7 +21,6 @@ export class User {
     const userCreated = await this.user.create({
       data: { ...newUser, telefones: { create: telefones } },
     });
-
     return userCreated;
   };
 
@@ -29,18 +28,17 @@ export class User {
     const existingUser = await this.user.findFirst({
       where: { email: { equals: email, mode: 'insensitive' } },
     });
-
     return existingUser;
   };
 
   compareUserPassword = async (requestPassword: string, userPassword: string) => {
     const checkPassword = await bcrypt.compare(requestPassword, userPassword);
-
     return checkPassword;
   };
 
   updateLastUserLogin = async (id: string) => {
-    await this.user.update({ data: { ultimo_login: new Date() }, where: { id } });
+    const updated = await this.user.update({ data: { ultimo_login: new Date() }, where: { id } });
+    return updated;
   };
 
   getUser = async (id: string) => {
