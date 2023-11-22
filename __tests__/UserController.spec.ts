@@ -94,6 +94,28 @@ describe('Serviço das rotas de usuário e UserController da API', () => {
     await userModel.removeUser(response.body.id);
   });
 
+  it('Deve rejeitar a requisição e exibir um JSON com erro de validação ao tentar fazer login na conta com a senha errada pela rota /api/v1/users/signin', async () => {
+    const response1 = await request(app)
+      .post('/api/v1/users/signup')
+      .send({
+        nome: 'Maria Clara',
+        email: 'claraz@gmail.com',
+        senha: '@545z54%$',
+        telefones: [{ numero: '81211978', ddd: '11' }],
+      });
+
+    const response2 = await request(app).post('/api/v1/users/signin').send({
+      email: 'claraz@gmail.com',
+      senha: '@545z54%$1',
+    });
+
+    expect(response2.status).toBe(401);
+    expect(response2.body).toEqual({
+      mensagem: 'Usuário e/ou senha inválidos.',
+    });
+    await userModel.removeUser(response1.body.id);
+  });
+
   it('Deve exibir um token jwt válido no JSON ao tentar fazer login na conta pela rota /api/v1/users/signin', async () => {
     await request(app)
       .post('/api/v1/users/signup')
