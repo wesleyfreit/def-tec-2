@@ -7,7 +7,7 @@ const secret = process.env.JWT_SECRET as string;
 
 export const createTokenJwt = (id: string) => {
   const token = jwt.sign({ id }, secret, {
-    expiresIn: 1,
+    expiresIn: '30m',
   });
   return token;
 };

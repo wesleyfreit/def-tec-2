@@ -12,7 +12,7 @@
     "dev": "tsx watch src/index.ts --exec ts-node src/index.ts -e ts",
     "lint": "eslint src --fix && prettier src --check --write",
     "prisma": "prisma migrate deploy",
-    "test": "jest --passWithNoTests",
+    "test": "jest --runInBand --passWithNoTests",
     "prepare": "husky install"
   },
   "keywords": [],

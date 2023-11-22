@@ -7,7 +7,7 @@ const user = new User();
 
 export class UserController {
   signUp = async (req: Request, res: Response) => {
-    const { nome, email, senha, telefones } = req.body;
+    const { nome, email, senha, telefones } = <IUser>req.body;
     try {
       const existingUser = await user.getUserByEmail(email);
 
@@ -22,13 +22,12 @@ export class UserController {
 
       return res.status(201).json({ id, data_criacao, data_atualizacao, ultimo_login, token });
     } catch (error) {
-      console.log(error);
       return res.status(500).json({ messagem: 'Ocorreu um erro interno no servidor.' });
     }
   };
 
   signIn = async (req: Request, res: Response) => {
-    const { email, senha } = req.body;
+    const { email, senha } = <IUserLogin>req.body;
     try {
       const existingUser = await user.getUserByEmail(email);
 

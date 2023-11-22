@@ -22,7 +22,8 @@ router.post(
             .keys({
               numero: Joi.string()
                 .pattern(/^\d{1,}$/)
-                .length(8)
+                .min(8)
+                .max(9)
                 .required(),
               ddd: Joi.string()
                 .pattern(/^\d{1,}$/)
