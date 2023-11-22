@@ -61,4 +61,19 @@ describe('Serviço de usuários', () => {
 
     await userModel.removeUser(userCreated.id);
   });
+
+  it('Deve ser possível recuperar o usuário através do id dele', async () => {
+    const userCreated = await userModel.createNewUser(
+      newUser.nome,
+      newUser.email,
+      newUser.senha,
+      newUser.telefones,
+    );
+
+    const userExisting = await userModel.getUser(userCreated.id);
+
+    expect(userExisting?.id).toBe(userCreated.id);
+
+    await userModel.removeUser(userCreated.id);
+  });
 });
