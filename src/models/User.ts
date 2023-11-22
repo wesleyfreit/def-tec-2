@@ -10,7 +10,12 @@ export class User {
     this.user = prisma.user;
   }
 
-  createNewUser = async (nome: string, email: string, senha: string, telefones: []) => {
+  createNewUser = async (
+    nome: string,
+    email: string,
+    senha: string,
+    telefones: { numero: string; ddd: string }[],
+  ) => {
     const hash = await bcrypt.hash(senha, 10);
     const newUser = {
       nome,
@@ -32,8 +37,8 @@ export class User {
   };
 
   compareUserPassword = async (requestPassword: string, userPassword: string) => {
-    const checkPassword = await bcrypt.compare(requestPassword, userPassword);
-    return checkPassword;
+    const passwordChecked = await bcrypt.compare(requestPassword, userPassword);
+    return passwordChecked;
   };
 
   updateLastUserLogin = async (id: string) => {
@@ -44,5 +49,15 @@ export class User {
   getUser = async (id: string) => {
     const user = await this.user.findFirst({ where: { id }, include: { telefones: true } });
     return user;
+  };
+
+  getAllUsers = async () => {
+    const users = await this.user.findMany();
+    return users;
+  };
+
+  removeUser = async (id: string) => {
+    const removed = await this.user.delete({ where: { id } });
+    return removed;
   };
 }
