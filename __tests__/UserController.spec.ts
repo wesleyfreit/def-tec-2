@@ -141,7 +141,7 @@ describe('Serviço das rotas de usuário e UserController da API', () => {
     await userModel.removeUser(response.body.id);
   });
 
-  it('Deve exibir os dados do usuário ao buscá-lo pela rota /api/v1/users/:id a partir do token jwt e id do usuário', async () => {
+  it('Deve exibir os dados do usuário ao buscá-lo através do id e do token jwt pela rota /api/v1/users/:id', async () => {
     const response = await request(app)
       .post('/api/v1/users/signup')
       .send({
