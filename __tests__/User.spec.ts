@@ -76,4 +76,21 @@ describe('Serviço de usuários', () => {
 
     await userModel.removeUser(userCreated.id);
   });
+
+  it('Deve ser possível atualizar o último login do usuário', async () => {
+    const userCreatedAndFirstLogin = await userModel.createNewUser(
+      newUser.nome,
+      newUser.email,
+      newUser.senha,
+      newUser.telefones,
+    );
+    await userModel.updateLastUserLogin(userCreatedAndFirstLogin.id);
+
+    const userSecondLogin = await userModel.getUser(userCreatedAndFirstLogin.id);
+
+    expect(userCreatedAndFirstLogin.ultimo_login).toBeNull();
+    expect(userSecondLogin?.ultimo_login).toBeInstanceOf(Date);
+
+    await userModel.removeUser(userCreatedAndFirstLogin.id);
+  });
 });

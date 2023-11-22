@@ -26,6 +26,7 @@ export class UserController {
 
       const { id, data_criacao, data_atualizacao, ultimo_login } = userCreated;
 
+      await user.updateLastUserLogin(id);
       const token = jwt.sign({ id, nome }, this.secret, {
         expiresIn: 1800,
       });
