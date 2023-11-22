@@ -11,7 +11,7 @@ export class UserController {
     try {
       const existingUser = await user.getUserByEmail(email);
 
-      if (existingUser) return res.status(409).json({ mensagem: 'E-mail já existente.' });
+      if (existingUser) return res.status(400).json({ mensagem: 'E-mail já existente.' });
 
       const userCreated = await user.createNewUser(nome, email, senha, telefones);
 

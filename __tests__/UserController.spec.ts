@@ -42,6 +42,33 @@ describe('Serviço das rotas de usuário e UserController da API', () => {
     });
   });
 
+  it('Deve rejeitar a requisição e exibir um JSON com erro de validação ao tentar criar uma conta com um email já cadastrado na rota /api/v1/users/signup', async () => {
+    const response1 = await request(app)
+      .post('/api/v1/users/signup')
+      .send({
+        nome: 'Francisco José',
+        email: 'franjz@gmai.com',
+        senha: '@jszkdfz',
+        telefones: [{ numero: '48522464', ddd: '88' }],
+      });
+
+    const response2 = await request(app)
+      .post('/api/v1/users/signup')
+      .send({
+        nome: 'Francisco José',
+        email: 'franjz@gmai.com',
+        senha: '@jszkdfz',
+        telefones: [{ numero: '48522464', ddd: '88' }],
+      });
+
+    expect(response2.status).toBe(400);
+    expect(response2.body).toEqual({
+      mensagem: 'E-mail já existente.',
+    });
+
+    await userModel.removeUser(response1.body.id);
+  });
+
   it('Deve exibir um JSON com os dados do usuário ao tentar fazer login na conta pela rota /api/v1/users/signin', async () => {
     await request(app)
       .post('/api/v1/users/signup')
