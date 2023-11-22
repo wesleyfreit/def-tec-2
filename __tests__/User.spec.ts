@@ -26,4 +26,19 @@ describe('Serviço de usuários', () => {
 
     await userModel.removeUser(userCreated.id);
   });
+
+  it('Deve ser possível recuperar um usuário pelo email', async () => {
+    const userCreated = await userModel.createNewUser(
+      newUser.nome,
+      newUser.email,
+      newUser.senha,
+      newUser.telefones,
+    );
+
+    const userExisting = await userModel.getUserByEmail(userCreated.email);
+
+    expect(userExisting?.email).toBe(userCreated.email);
+
+    await userModel.removeUser(userCreated.id);
+  });
 });
