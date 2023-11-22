@@ -1,20 +1,11 @@
-import dotenv from 'dotenv';
-dotenv.config();
-
 import { Request, Response } from 'express';
-import jwt from 'jsonwebtoken';
 
 import { User } from '../models/User';
+import { createTokenJwt } from '../utils/jwtFunctions';
 
 const user = new User();
 
 export class UserController {
-  private secret;
-
-  constructor() {
-    this.secret = process.env.JWT_SECRET as string;
-  }
-
   signUp = async (req: Request, res: Response) => {
     const { nome, email, senha, telefones } = req.body;
     try {
@@ -27,9 +18,7 @@ export class UserController {
       const { id, data_criacao, data_atualizacao, ultimo_login } = userCreated;
 
       await user.updateLastUserLogin(id);
-      const token = jwt.sign({ id, nome }, this.secret, {
-        expiresIn: 1800,
-      });
+      const token = createTokenJwt(id);
 
       return res.status(201).json({ id, data_criacao, data_atualizacao, ultimo_login, token });
     } catch (error) {
@@ -47,12 +36,10 @@ export class UserController {
         const checkPassword = await user.compareUserPassword(senha, existingUser.senha);
 
         if (checkPassword) {
-          const { id, nome, data_criacao, data_atualizacao, ultimo_login } = existingUser;
+          const { id, data_criacao, data_atualizacao, ultimo_login } = existingUser;
 
           await user.updateLastUserLogin(id);
-          const token = jwt.sign({ id, nome }, this.secret, {
-            expiresIn: 1800,
-          });
+          const token = createTokenJwt(id);
 
           return res.json({ id, data_criacao, data_atualizacao, ultimo_login, token });
         } else return res.status(401).json({ mensagem: 'Usuário e/ou senha inválidos.' });
