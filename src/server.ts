@@ -10,7 +10,7 @@ app.use(router);
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((req: Request, res: Response, next: NextFunction) => {
-  res.status(404).json({ mensagem: 'Conteúdo não encontrado.' });
+  res.status(400).json({ mensagem: 'Conteúdo não encontrado.' });
 });
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

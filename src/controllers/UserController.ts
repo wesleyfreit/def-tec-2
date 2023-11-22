@@ -42,7 +42,7 @@ export class UserController {
 
           return res.json({ id, data_criacao, data_atualizacao, ultimo_login, token });
         } else return res.status(401).json({ mensagem: 'Usuário e/ou senha inválidos.' });
-      } else return res.status(404).json({ mensagem: 'Usuário e/ou senha inválidos.' });
+      } else return res.status(400).json({ mensagem: 'Usuário e/ou senha inválidos.' });
     } catch (error) {
       return res.status(500).json({ messagem: 'Ocorreu um erro interno no servidor.' });
     }
@@ -57,7 +57,7 @@ export class UserController {
         const { nome, email, telefones } = existingUser;
 
         return res.json({ id, nome, email, telefones });
-      } else return res.status(404).json({ mensagem: 'Usuário não encontrado.' });
+      } else return res.status(400).json({ mensagem: 'Usuário não encontrado.' });
     } catch (error) {
       return res.status(500).json({ messagem: 'Ocorreu um erro interno no servidor.' });
     }

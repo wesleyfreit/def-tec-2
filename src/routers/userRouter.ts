@@ -27,7 +27,8 @@ router.post(
                 .required(),
               ddd: Joi.string()
                 .pattern(/^\d{1,}$/)
-                .length(2)
+                .min(1)
+                .max(3)
                 .required(),
             })
             .required(),
