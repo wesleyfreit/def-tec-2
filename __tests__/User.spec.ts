@@ -41,4 +41,24 @@ describe('Serviço de usuários', () => {
 
     await userModel.removeUser(userCreated.id);
   });
+
+  it('Deve ser possível validar se a senha fornecida corresponde à senha do usuário', async () => {
+    const userCreated = await userModel.createNewUser(
+      newUser.nome,
+      newUser.email,
+      newUser.senha,
+      newUser.telefones,
+    );
+
+    const userExisting = await userModel.getUserByEmail(userCreated.email);
+
+    const checkPassword = await userModel.compareUserPassword(
+      newUser.senha,
+      userExisting?.senha as string,
+    );
+
+    expect(checkPassword).toBe(true);
+
+    await userModel.removeUser(userCreated.id);
+  });
 });
